@@ -23,7 +23,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: pypi
-    if: github.ref == 'refs/heads/main'
+    if: github.event.release.target_commitish == 'main'
     permissions:
       id-token: write
     steps:
