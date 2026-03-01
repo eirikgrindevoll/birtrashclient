@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "birtrashclient"
-version = "0.1.1"
+version = "0.1.2.dev1"
 description = "Async client library for the BIR Trash Collection API"
 readme = "README.md"
 license = { text = "MIT" }
