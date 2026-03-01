@@ -158,6 +158,10 @@ class BirTrashClient:
             ) as response:
                 response.raise_for_status()
                 self.token = response.headers["Token"]
+        except KeyError as err:
+            raise BirTrashAuthError(
+                "Authentication succeeded but response contained no Token header"
+            ) from err
         except (aiohttp.ClientError, asyncio.TimeoutError) as err:
             raise BirTrashAuthError(
                 f"Authentication failed: {err}"
@@ -195,7 +199,7 @@ class BirTrashClient:
             headers={"Token": self.token},
         )
 
-    async def search_address(self, address: str) -> str:
+    async def search_address(self, address: str) -> str | None:
         """Search for an address and return the corresponding property ID.
 
         The address is normalized before searching — a space is inserted
@@ -206,7 +210,8 @@ class BirTrashClient:
             address: The street address to search for.
 
         Returns:
-            The property ID string for the first matching property.
+            The property ID string for the first matching property, or None
+            if the result contains no id.
 
         Raises:
             BirTrashConnectionError: If the request fails after retries.
