@@ -1,8 +1,13 @@
 """BIR Trash Collection API client library."""
 
+from importlib.metadata import PackageNotFoundError, version
+
 from .client import BirTrashAuthError, BirTrashClient, BirTrashConnectionError
 
-__version__ = "0.1.2b1"
+try:
+    __version__ = version("birtrashclient")
+except PackageNotFoundError:
+    __version__ = "unknown"
 
 __all__ = [
     "BirTrashClient",
